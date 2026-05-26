@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using WorkingWithScenes;
 using Curs = UnityEngine.Cursor;
 
 namespace gameProcess{
@@ -27,15 +28,14 @@ namespace gameProcess{
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                IsMenuActive = !IsMenuActive;
-                if (!IsMenuActive)
-                {
-                    Curs.lockState = CursorLockMode.Locked;
-                    Curs.visible = false;
-                    Menu.SetActive(false);
-                }
                 if (IsMenuActive)
                 {
+                    ClouseMenu();
+                }
+                if (!IsMenuActive)
+                {
+                    UseMause.multiplier = 0;
+                    IsMenuActive = true;
                     Curs.lockState = CursorLockMode.None;
                     Curs.visible = true;
                     Menu.SetActive(true);
@@ -51,6 +51,17 @@ namespace gameProcess{
 
         public void ClickContinue()
         {
+            ClouseMenu();
+        }
+
+        public void ClickOnReturnMenu()
+        {
+            MySceneManager.LoadScene(Scenes.Menu);
+        }
+
+        void ClouseMenu()
+        {
+            UseMause.multiplier = SettingManager.GetFloatSetting("MauseSensitivity");
             IsMenuActive = false;
             Curs.lockState = CursorLockMode.Locked;
             Curs.visible = false;
