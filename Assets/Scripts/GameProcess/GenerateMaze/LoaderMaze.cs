@@ -27,6 +27,7 @@ namespace gameProcess
 
         void Start()
         {
+
             if (maze == null)
             {
                 throw new CastomThrow("Лаберинт не проинсталезирован!");
@@ -48,6 +49,8 @@ namespace gameProcess
                 Debug.Log("NONE LODAER USERS");
             for (int i = 0; i < Users.Count; i++)
             {
+                if (Users[i] == null)
+                    Users.RemoveAt(i);
                 position Pos = PositionConvertor.GlobalInMaze(Users[i].position) + new position(-SizeBigCell / 2, -SizeBigCell / 2);
                 Pos.X = Pos.X / SizeBigCell + 1;
                 Pos.Y = Pos.Y / SizeBigCell + 1;

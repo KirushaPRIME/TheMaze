@@ -1,8 +1,10 @@
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractiveRay : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
     private Camera camera;
     bool HintHasAdd = false;
     string Hint;
@@ -35,7 +37,7 @@ public class InteractiveRay : MonoBehaviour
                 }
                 if (Input.GetKeyDown(target.keyForInt))
                 {
-                    target.StartInteractive();
+                    target.StartInteractive(player);
                 }
             }else if (HintHasAdd)
             {

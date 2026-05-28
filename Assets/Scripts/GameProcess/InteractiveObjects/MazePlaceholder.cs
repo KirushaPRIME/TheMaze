@@ -1,3 +1,5 @@
+//#define DEBUGING
+
 using UnityEngine;
 using Unity.VisualScripting;
 
@@ -14,7 +16,21 @@ namespace gameProcess
                 if (go == null)
                     return;
                 bool FindCell = false;
-                Vector3 Size = go.GetComponent<MeshRenderer>().bounds.size;
+                Vector3 Size;
+                if (go.GetComponent<MeshRenderer>() == null){
+                    for (int i = 0; i < go.transform.childCount; i++)
+                    {
+                        if (go.transform.GetChild(i).GetComponent<MeshRenderer>() != null)
+                        {
+                            Size = go.transform.GetChild(i).GetComponent<MeshRenderer>().bounds.size;
+                            goto FIND_MR;
+                        }
+                    }
+                    Size = Vector3.zero;
+                }
+                else
+                    Size = go.GetComponent<MeshRenderer>().bounds.size;
+                FIND_MR:
                 Debug.Log(Size);
                 Directions[] D = new Directions[4];
                 int CountD = 0;
@@ -47,7 +63,9 @@ namespace gameProcess
                                             );
                                     go.GetComponent<Transform>().Rotate(0, ((int)ROr % 2 == 0) ? 90 * (int)ROr / 2 : ((int)ROr > 0) ? 0 : 180, 0);
                                     FindCell = true;
+#if DEBUGING
                                     Debug.Log("Spawn: " + go.name + ", Ror = " + ROr + ", Count = " + CountD);
+#endif
                                     return;
                                 }
                                 else
