@@ -61,7 +61,7 @@ namespace gameProcess
                                             -PositionConvertor.HighBlock / 2 + Size.y / 2,
                                             -(((int)ROr % 2 == 0) ? 0 : ((int)ROr)) * (PositionConvertor.WidthBlock / 2 - Size.z / 2)
                                             );
-                                    go.GetComponent<Transform>().Rotate(0, ((int)ROr % 2 == 0) ? 90 * (int)ROr / 2 : ((int)ROr > 0) ? 0 : 180, 0);
+                                    go.GetComponent<Transform>().Rotate(0, ((int)ROr % 2 == 0) ? -90 * (int)ROr / 2 : ((int)ROr > 0) ? 0 : 180, 0);
                                     FindCell = true;
 #if DEBUGING
                                     Debug.Log("Spawn: " + go.name + ", Ror = " + ROr + ", Count = " + CountD);

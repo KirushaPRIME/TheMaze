@@ -23,9 +23,4 @@ public class HatchBehaviour : MonoBehaviour
         }
         Debug.Log("You are escape!");
     }
-
-    void Update()
-    {
-        
-    }
 }

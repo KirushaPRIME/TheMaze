@@ -6,13 +6,15 @@ namespace gameProcess
     public class LighterControler : MonoBehaviour
     {
         public Light LightSource;
-        public bool IsActive = false;
+        public bool IsActive = true;
+        public AudioSource SwitchAudio;
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 IsActive = !IsActive;
                 LightSource.enabled = IsActive;
+                SwitchAudio.Play();
             }
         }
     }

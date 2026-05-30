@@ -42,7 +42,7 @@ AudioSource:
   m_GameObject: {fileID: 8220563143404649705}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -1878454973419300828, guid: b22a302fe2df1df4bbdaee88bb48a2ff, type: 2}
+  OutputAudioMixerGroup: {fileID: -6593513240197013901, guid: b22a302fe2df1df4bbdaee88bb48a2ff, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 8dcd923dd22b1034e8d850f2f2be4822, type: 3}
   m_PlayOnAwake: 0
@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 1727702444840954943}
   - component: {fileID: 4058175510943682578}
   - component: {fileID: 144303607384887158}
+  - component: {fileID: 138245862623090946}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -354,6 +355,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jump
   JumpVelocity: 1
+--- !u!167 &138245862623090946
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8524250096683226397}
+  m_Enabled: 1
+  m_MinDistance: 10
+  m_MaxDistance: 15
+  m_ReverbPreset: 14
+  m_Room: -1000
+  m_RoomHF: -237
+  m_DecayTime: 2.7
+  m_DecayHFRatio: 0.79
+  m_Reflections: -1214
+  m_ReflectionsDelay: 0.013
+  m_Reverb: 395
+  m_ReverbDelay: 0.02
+  m_HFReference: 5000
+  m_Diffusion: 100
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0
 --- !u!1 &9067795403709637640
 GameObject:
   m_ObjectHideFlags: 0
