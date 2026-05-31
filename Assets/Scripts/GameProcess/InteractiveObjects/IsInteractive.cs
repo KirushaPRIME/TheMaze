@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class IsInteractive : MonoBehaviour
 {
     public bool IsActive = true;

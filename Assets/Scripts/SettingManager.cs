@@ -7,12 +7,15 @@ public static class SettingManager
     static readonly string[] SettingsList = 
     {
         "MauseSensitivity",
+        "MaterVolume"
     };
 
     public static void CheakConfigurationSettings()
     {
         if (!PlayerPrefs.HasKey("MauseSensitivity"))
             PlayerPrefs.SetFloat("MauseSensitivity", 0.5f);
+        if (!PlayerPrefs.HasKey("MaterVolume"))
+            PlayerPrefs.SetFloat("MaterVolume", 0.5f);
     }
 
     public static void SetSetting<T>(string Key, T value) where T : IConvertible

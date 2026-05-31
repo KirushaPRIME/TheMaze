@@ -19,6 +19,7 @@ namespace gameProcess
         static public int SizeBigCell = 10;
         static int LoadMapWidth;
         static int LoadMapHeight;
+        static short offset = -1;
         public static Maze maze;
         static List<Transform> Users = new List<Transform>();
 
@@ -32,9 +33,8 @@ namespace gameProcess
             {
                 throw new CastomThrow("Лаберинт не проинсталезирован!");
             }
-            LoadMapWidth = maze.GetWidth() / SizeBigCell + ((maze.GetWidth() / SizeBigCell % 2 == 0) ? 0 : 1) + 1;
-            LoadMapHeight = maze.GetHeight() / SizeBigCell + ((maze.GetHeight() / SizeBigCell % 2 == 0) ? 0 : 1) + 1;
-            Debug.Log(LoadMapWidth + " " + LoadMapHeight);
+            LoadMapWidth = maze.GetWidth() / SizeBigCell + ((maze.GetWidth() % SizeBigCell == 0) ? 0 : 1) + 1;
+            LoadMapHeight = maze.GetHeight() / SizeBigCell + ((maze.GetHeight() % SizeBigCell == 0) ? 0 : 1) + 1;
             LoadMap = new BigCell[LoadMapWidth][];
             for (int i = 0; i < LoadMapWidth; i++)
             {
@@ -51,9 +51,10 @@ namespace gameProcess
             {
                 if (Users[i] == null)
                     Users.RemoveAt(i);
-                position Pos = PositionConvertor.GlobalInMaze(Users[i].position) + new position(-SizeBigCell / 2, -SizeBigCell / 2);
-                Pos.X = Pos.X / SizeBigCell + 1;
-                Pos.Y = Pos.Y / SizeBigCell + 1;
+                position Pos = PositionConvertor.GlobalInMaze(Users[i].position);
+                Pos.X = (Pos.X - offset) / SizeBigCell;
+                Pos.Y = (Pos.Y - offset) / SizeBigCell;
+                Debug.Log(Pos.ToString());
                 for (
                     int x = (Pos.X - 1 >= 0) ? Pos.X - 1 : 0;
                     x < Pos.X - 1 + 3 && x < LoadMapWidth;
@@ -102,12 +103,12 @@ namespace gameProcess
             public BigCell(int X, int Y)
             {
                 Pos = new position(X, Y);
-                ActiveImpuls = 1;
                 LoadZone = null;
                 OnOneUpdate += DoWithUpdate;
                 Parent = new GameObject();
                 Parent.name = "BigCell:" + X + "," + Y;
                 Parent.transform.SetParent(BlockParent);
+                AddImpuls();
             }
             void DoWithUpdate()
             {
@@ -130,6 +131,7 @@ namespace gameProcess
                     OnOneUpdate -= DoWithUpdate;
                     LoadZone = null;
                     LoadMap[Pos.X][Pos.Y] = null;
+                    Destroy(Parent);
                 }
             }
             public void AddImpuls()
@@ -142,15 +144,15 @@ namespace gameProcess
                     int Xi = 0, Yi = 0;
 
                     for (
-                        int i = -SizeBigCell / 2 + Pos.X * SizeBigCell;
-                        i < SizeBigCell / 2 + Pos.X * SizeBigCell;
+                        int i = Pos.X * SizeBigCell + offset;
+                        i < SizeBigCell + Pos.X * SizeBigCell + offset;
                         i++
                         )
                     {
                         Yi = 0;
                         for (
-                            int j = -SizeBigCell / 2 + Pos.Y * SizeBigCell;
-                            j < SizeBigCell / 2 + Pos.Y * SizeBigCell;
+                            int j =  Pos.Y * SizeBigCell + offset;
+                            j < SizeBigCell + Pos.Y * SizeBigCell + offset;
                             j++
                             )
                         {
@@ -159,7 +161,9 @@ namespace gameProcess
                                 if (maze.GetCell(i, j) == 'W')
                                 {
                                     LoadZone[Xi, Yi] = Instantiate(BlockPref, Parent.transform).GetComponent<Transform>();
-                                    LoadZone[Xi, Yi].GetComponent<Transform>().position = PositionConvertor.MazeInGlobal(i, j);
+                                    LoadZone[Xi, Yi].GetComponent<Transform>().position = PositionConvertor.MazeInGlobal(i, j) + 
+                                        new Vector3(0, PositionConvertor.HighBlock / 2, 0);
+                                    LoadZone[Xi, Yi].name += i.ToString() + " " + j;
                                 }
 #if USELIGHT
                             else if (maze.GetCell(i, j) == 'L')
@@ -173,7 +177,9 @@ namespace gameProcess
                             catch (IndexOutOfRangeException)
                             {
                                 LoadZone[Xi, Yi] = Instantiate(BlockPref, Parent.transform).GetComponent<Transform>();
-                                LoadZone[Xi, Yi].GetComponent<Transform>().position = PositionConvertor.MazeInGlobal(i, j);
+                                LoadZone[Xi, Yi].GetComponent<Transform>().position = PositionConvertor.MazeInGlobal(i, j) + 
+                                    new Vector3(0, PositionConvertor.HighBlock / 2, 0);
+                                LoadZone[Xi, Yi].name += i.ToString() + " " + j;
                             }
 
                             Yi++;

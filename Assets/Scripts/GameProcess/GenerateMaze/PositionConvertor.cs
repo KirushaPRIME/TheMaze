@@ -10,7 +10,7 @@ namespace gameProcess
         static public float GroundLevel;
         static public Vector3 MazeInGlobal(int X, int Y)
         {
-            return new Vector3(X * WidthBlock, GroundLevel + HighBlock / 2, Y * WidthBlock);
+            return new Vector3(X * WidthBlock + WidthBlock / 2, GroundLevel, Y * WidthBlock + WidthBlock / 2);
         }
         static public position GlobalInMaze(Vector3 Vec)
         {

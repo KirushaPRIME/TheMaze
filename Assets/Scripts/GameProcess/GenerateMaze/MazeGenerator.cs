@@ -9,7 +9,7 @@ namespace gameProcess
 {
     namespace MazeGenerator
     {
-        internal class Maze
+        class Maze
         {
             char[,] Cell;
             int Width, Height;
@@ -94,7 +94,7 @@ namespace gameProcess
             delegate void DoStep();
             event DoStep OnDoStep;
 
-
+            public position GetExit() { return Exit; }
 
             public BugGenerator(int Width, int Height, int WStart, int HStart, int NamberStartBug) : base(Width, Height)
             {
@@ -242,7 +242,11 @@ namespace gameProcess
                     {
                         obj.ExitFound = true;
                         obj.OnDoStep -= DoStep;
-                        if (obj.Exit.X == -1) obj.Exit = Pos;
+                        if (obj.Exit.X == -1)
+                            obj.Exit = new position(
+                                Pos.X < obj.GetWidth() ? Pos.X >= 0 ? Pos.X : 0 : obj.GetWidth() - 1,
+                                Pos.Y < obj.GetHeight() ? Pos.Y >= 0 ? Pos.Y : 0 : obj.GetHeight() - 1
+                                );
                     }
                     else
                         obj.SetCell(Pos.X, Pos.Y, (OM == OperatingMode.Ripper) ? 'R' : 'S');
